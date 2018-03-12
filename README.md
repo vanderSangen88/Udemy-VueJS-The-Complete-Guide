@@ -1365,3 +1365,233 @@ To preserve line breaks in the `<textarea>`, add the CSS-property `white-space: 
     }
 </script>
 ```
+
+### -- #149 Using Radio Buttons
+By adding the `v-model="gender"`-attribute VueJS knows all the input-fields with `type="radio"`, which hold the added attribute, belong to the same group.
+
+### -- #150 Handling Dropdowns with select and option
+
+//
+
+### -- #151 What v-model does and How to Create a Custom Control
+
+`v-model` does two things behind the scenes:
+1. It binds to the value with `:[value]` or `v-bind:[value]`
+2. It enables the (default) `@input`-listener.
+
+### -- #152 Creating a Custom Control (Input)
+
+// 
+
+### -- #153 Submitting a Form
+
+1: Add a click-listener to the submit-button.
+2: Add the `prevent`-modifier.
+3: Pass it the custom event `"submitted".`
+
+```html
+    <button class="btn btn-primary" @click.prevent="submitted"></button>
+```
+
+### // Exercise 9: Forms
+
+// 
+
+### -- #155 Module Resources & Useful Links
+
+Official Docs - Forms: http://vuejs.org/guide/forms.html
+
+---
+---
+
+## Section 12 - Using and Creating Directives
+
+### -- #157 Understanding Directives
+
+Register a custom directive globally:
+*in main.js*
+```js
+Vue.directive('highlight'); // v-highlight
+```
+
+### -- #158 Hooks
+
+- `bind(el, binding, vnode)`: Fired as soon as the directive is bound to the element. "binding" & "vnode" should be treated as **Read-Only**.
+- `inserted(el, binding, vnode)`: Fired as soon as it is inserted in the DOM.
+- `update(el, binding, vnode, oldVnode)`: Fired as soon as the element updates without children
+- `componentUpdated(el, binding, vnode, oldVnode)`: Once component is updated with children
+- `unbind(el, binding, vnode)`: Whenever the directive is removed
+
+```js
+Vue.directive('highlight', {
+    bind(el, binding, vnode){
+        // el.style.backgroundColor = 'green'
+        // el.style.backgroundColor = binding.value
+        if(binding.arg == 'background'){
+            el.style.backgroundColor = binding.value;
+        } else {
+            el.style.color = binding.value;
+        }
+    }
+});
+```
+
+### -- #162 Modifying a Custom Directive with Modifiers
+
+// 
+
+### -- #164 Registering Directives Locally
+```html
+<p v-local-hightlight:background.delayed="'red'">Color this, too</p>
+```
+```js
+    export default {
+        directives: {
+            localHighlight: {
+                bind(el, binding, vnode){
+                    ...
+                }
+            }
+        }
+    }
+ ```
+
+ ### -- #168 Module Resources & Useful Links
+
+ Official Docs - Custom Directives: http://vuejs.org/guide/custom-directive.html
+
+ ---
+ ---
+
+ ## Section 13 - Improving your App with Filters and Mixins
+
+ ### -- 170 Creating a Filter
+```html
+    <div>{{ text | toUppercase | to-lowercase }}</div>
+```
+
+ Global: 
+ *in main.js:*
+ ```js
+    Vue.filter('to-lowercase', function(value) {
+        return value.toLowerCase();
+    });
+ ```
+
+ Local:
+ *in [component].vue*
+ ```js
+ export default {
+     data() {
+         return {
+             text: 'Hello there!'
+         }
+     },
+     filters: {
+        //  'to-uppercase'
+        toUppercase(value) {
+            return value.toUpperCase()
+        }
+     }
+ }
+ ```
+### -- #172 An (often-time better) Alternative to Filters: Computed Properties
+
+*in App.vue:*
+```html
+<template>
+    <input v-model="filteredText" />
+    <ul>
+        <li v-for="fruit in filteredFruits" :key="fruit.id">
+            {{ fruit }}
+        </li>
+    </ul>
+</template>
+<script>
+    export default {
+        data() {
+            return {
+                fruits: [
+                    'Apple',
+                    'Banana',
+                    'Mango', 
+                    'Melon'
+                ],
+                filterText: ''
+            }
+        }, 
+        computed: {
+            filteredFruits() {
+                return this.fruits.filter((fruit) => {
+                    return fruit.match(this.filterText);
+                });
+            }
+        }
+    }
+</script>
+```
+
+Filters can be a nice solution, but often computed properties are better solutions!
+
+### -- #173 Creating and Using Mixins
+
+1: Create a mixin-file called "fruitMixin".
+*in fruitMixin.js:*
+```js
+    export const fruitMixin = {
+        data() {
+            return { 
+                fruits: ['Apple', 'Banana', 'Mango', 'Melon']
+            }
+        }
+        computed: {
+            filteredFruits() {
+                return this.fruits.filter((fruit) => {
+                    return fruit.match(this.filterText);
+                });
+            }
+        }
+    };
+```
+
+*in App.vue:*
+```html
+<script>
+    import { fruitMixin } from '[path-to]/fruitMixin'
+
+    export default {
+        mixins: [
+            fruitMixin
+        ],
+        data() {
+            return { 
+                // fruits: ['Apple', 'Banana', 'Mango', 'Melon'],
+                filterText: ''
+            }
+        }
+        // ,computed: {
+        //     filteredFruits() {
+        //         return this.fruits.filter((fruit) => {
+        //             return fruit.match(this.filterText);
+        //         });
+        //     }
+        // }
+    }
+</script>
+```
+### -- How Mixins get Merged
+
+Mixins first, then components.
+
+### -- Creating a Global Mixin (Special Case)
+
+// 
+
+### // Exercise 11 - Filters & Mixins
+
+// 
+
+### -- #179 Module Resources & Useful Links
+
+Official Docs - Filters: http://vuejs.org/v2/guide/filters/html
+Official Docs - Mixins: http://vuejs.org/guide/mixins/html 
