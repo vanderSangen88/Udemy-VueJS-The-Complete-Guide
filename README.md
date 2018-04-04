@@ -1682,15 +1682,63 @@ created() {
 }
 ```
 
-### -- #21
-*in App.vue:*
+## Section 16 - Routing in a VueJS Application
+### -- #224 Setting up and loading routes
+1 Install vue-router as a dependency
+```
+npm i -S vue-router
+```
+
+2 Include vue-router  
+*in main.js:*
 ```js
-data(){
-    return {
-        resource: {}
-    }
-},
-created() {
-    this.resource = this.$resource('someUrl').get();
-}
+// import Vue from 'vue'
+import VueRouter from 'vue-router';
+// import App from './App.vue';
+import { routes } from './routes';
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes: routes
+});
+
+// const vm = new Vue({
+//  ...App,
+ router
+// });
+
+// vm.$mount('#app');
+```
+3 Create routes-file  
+*in main.js:*
+```js
+import Home from './components/Home.vue';
+import User from './components/user/User.vue';
+
+export const routes = [
+    { path: '', component: Home }, 
+    { path: '/user', component: User }
+];
+```
+4 Include the `<router-view>`-marker in App.vue to tell VueJS where to load the current routeComponent.
+
+### -- #225 Understanding Routing Modes (Hash vs History)
+
+Needs to have a configured server in deployment where the index.html is always served.
+webpack-dev-server already is properly configured.  
+*in main.js:*
+```js
+// const router = new VueRouter({
+//   routes: routes,
+  mode: 'history'
+// });
+```
+### -- #226 Navigating with Router Links
+
+Instead of using an `<a>`-tag, use the `<router-link>`-tag with the `to=""`-attribute. Which will render an anchor-tag and the correct routes.  
+*in Header.vue:*
+```html
+<li role="presentation"><router-link to="/">Home</router-link></li>
+<li role="presentation"><router-link to="/user">User</router-link></li>
 ```
