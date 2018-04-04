@@ -1595,3 +1595,102 @@ Mixins first, then components.
 
 Official Docs - Filters: http://vuejs.org/v2/guide/filters/html
 Official Docs - Mixins: http://vuejs.org/guide/mixins/html 
+
+---
+---
+
+## Section 14 - Adding Animations and Transitions
+
+### -- #180 Module Introduction
+
+
+
+---
+---
+
+## Section 15 - Connecting to Servers via Http - Using vue-resource
+
+### -- #209 Accessing Http via vue-resource - Setup
+
+https://github.com/vuejs/vue-resource
+
+Install vue-resource package as a production development: `npm i -S vue-resource`
+
+Add/configure the plugin to the application with the new method on the global vue object `use()`:
+
+*in main.js:*
+```js
+import VueResource from 'vue-resource';
+
+Vue.use(VueResource);
+```
+
+### -- #211 Data to the Server
+
+*in App.vue:*
+```js
+this.$http.get('/someUrl', {params: {foo: 'bar'}})
+    .then(response => {
+        // success callback
+    }, reject => {
+        // error callback
+    })
+```
+
+Use the `response.json()`-method to convert the string to an object if it not already is. It returns a Promise instead of the data right away. Therefor just return the Promise and chain another `.then()`-method.
+
+*in App.vue:*
+```js
+fetchDdata() {
+    this.$http.get('/someUrl')
+        .then(response => {
+            return response.json();
+        }).then(data => {
+            // access to the data!
+        });
+}
+```
+
+A central place for the url to be stored is after the VueResource usage without the $.
+*in main.js:*
+```js
+// Vue.use(VueResource);
+Vue.http.options.root = 'http://www.omdbapi.com/' // relative path
+```
+### -- #214 Intercepting Requests
+An array of functions to be executed on each request
+
+*in main.js:*
+```js
+Vue.http.interceptors.push((request, next) => {
+    // console.log(request);
+    // request.method = 'PUT';
+    next();
+});
+```
+
+### -- #216 Where the "resource" in vue-resource Comes From
+*in App.vue:*
+```js
+data(){
+    return {
+        resource: {}
+    }
+},
+created() {
+    this.resource = this.$resource('someUrl').get();
+}
+```
+
+### -- #21
+*in App.vue:*
+```js
+data(){
+    return {
+        resource: {}
+    }
+},
+created() {
+    this.resource = this.$resource('someUrl').get();
+}
+```

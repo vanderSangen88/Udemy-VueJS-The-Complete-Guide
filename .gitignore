@@ -2,9 +2,19 @@
 node_modules/
 dist/
 .vscode
-Section*
 vue*
 /src*
 /index.html
 /package.json
 /style.css
+
+Section*
+!Section-15 - Connecting to Servers via Http
+Section-15 - Connecting to Servers via Http/webpack.config.js
+Section-15 - Connecting to Servers via Http/.babelrc
+Section-15 - Connecting to Servers via Http/.gitignore
+Section-15 - Connecting to Servers via Http/README.md
+Section-15 - Connecting to Servers via Http/index.html
+Section-15 - Connecting to Servers via Http/package.json
+Section-15 - Connecting to Servers via Http/src/assets
+!Section-15 - Connecting to Servers via Http/src
