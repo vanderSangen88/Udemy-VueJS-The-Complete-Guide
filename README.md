@@ -186,7 +186,7 @@ new Vue({
 
 Vue CLI allows you to fetch empty VueJS Project Templates
 
-```
+```bash
 npm i -g vue-cli
 ```
 
@@ -262,7 +262,7 @@ Finally, it's important to be aware of the fact, that you can also load your App
 
 **1) Using the ES6 Spread Operator:**  
 Install the babel-preset-stage-2 Dependency to your .babelrc File)
-```cmd
+```bash
 npm i -D babel-preset-stage-2
 ```
 *in .babelrc:*
@@ -1685,7 +1685,7 @@ created() {
 ## Section 16 - Routing in a VueJS Application
 ### -- #224 Setting up and loading routes
 1 Install vue-router as a dependency
-```
+```bash
 npm i -S vue-router
 ```
 
@@ -1742,3 +1742,115 @@ Instead of using an `<a>`-tag, use the `<router-link>`-tag with the `to=""`-attr
 <li role="presentation"><router-link to="/">Home</router-link></li>
 <li role="presentation"><router-link to="/user">User</router-link></li>
 ```
+
+### -- #227 Where am I? - Styling Active Links
+
+Attach Bootstrap's 'active'-class to the `<li>`.  
+The problem in the example above is that the `<router-link>` is used as an anchor-tag and not as the parent list-item.   
+Therefor the classname 'router-link-active' is wrong. And it's replacing the wrong element.
+
+Solve this by:
+1) Replace the `<li>` with `<router-link>`.
+2) Set the `tag`-attribute of the `<router-link>` to `li` to render it as a list-item.
+3) Nest the `<a>` inside without any attributes.
+4) Set the `active-class`-attribute to Bootstrap's classname 'active'.
+```html
+<router-link tag="li" to="/" active-class="active" exact>
+    <a>Home</a>
+</router-link>
+<router-link tag="li" to="/user" active-class="active">
+    <a>User</a>
+</router-link>
+```
+
+This results in an issue: 'Home' stays selected at all times.  
+This is because the default behaviour of the active-class is that it looks at where this link links to, so just '/' and then it looks at the url. By default it marks the link as active whenever the url starts with the path passed to the `to=""`-attribute. Clearly, all the urls start with '/' after the domain. Which is great for nested routes, for example on `user/{id}' and the 'user'-link needs to stay active.  
+It isn't desired behaviour in the case above though, where the root-route shouldn't be active all the time.
+
+Solve this by:
+1) Adding another configuration-attribute `exact` to the router-link which will overwrite the default to be an exact match.
+
+### -- #228 Navigating from Code (Imperative Navigation)
+*in User.vue:*
+```html
+<template>
+    <div>
+        <h1>The User Page</h1>
+        <hr>
+        <button @click="navigateToHome" class="btn btn-primary">Go to Home</button>
+    </div>
+</template>
+<script>
+export default {
+  methods: {
+      navigateToHome() {
+          this.$router.push({
+              path: '/'
+          });
+      }
+  }
+}
+</script>
+```
+
+### -- #229 Setting Up Route Parameters
+Pass an parameter like 'id' to the route
+*in routes.js:*
+```js
+{ path: '/user/:id', component: User }
+```
+
+### -- #230 Fetching and Using Route Parameters
+*in Header.vue:*
+```html
+<router-link tag="li" to="/user/10" active-class="active"><a>User</a></router-link>
+  </ul>
+```
+*in User.vue:*
+```html
+<p>Loaded ID: {{ id }}</p>
+```
+```js
+data() {
+    return {
+        id: this.$route.params.id
+    }
+},
+```
+
+### -- #231 Reacting to Changes in Route Parameters
+VueJS will not recreate the Component and therefor the 'id'-output is not updated.
+
+Solve this by watching the params to change and update if needed:
+1) Setup a watcher
+```js
+...
+watch: {
+    '$route'(to, from) {
+        this.id = to.params.id
+    }
+}
+...
+```
+
+### -- #232 Extract Route Params via "props"
+As of vue-router version 2.2, you can also bind your route params to props of the target components. This eliminates the need of watch ing $route .
+
+There are three ways of using this feature, check this official example to learn more: https://github.com/vuejs/vue-router/tree/dev/examples/route-props
+
+You can basically either pass a static value, bind a dynamic value to props or use a function to also convert your dynamic value.
+
+*in routes.js:*
+```js
+{ path: '/user/:id', component: User, props: true }
+```
+*in User.vue:*
+```js
+ props: ['id'],
+//  watch: {
+//     '$route'(to, from) {
+//         this.id = to.params.id
+//     }
+// }
+```
+### -- #232 Extract Route Params via "props"

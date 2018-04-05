@@ -1,7 +1,7 @@
 import Home from './components/Home.vue';
-import User from './components/user/User.vue';
+import Movie from './components/Movie.vue';
 
 export const routes = [
     { path: '', component: Home }, 
-    { path: '/user/:id', component: User, props: true }
+    { path: '/movie/:imdbID', component: Movie }
 ];
