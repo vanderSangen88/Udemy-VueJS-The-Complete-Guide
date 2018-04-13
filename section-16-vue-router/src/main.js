@@ -10,6 +10,11 @@ const router = new VueRouter({
   mode: 'history'
 });
 
+router.beforeEach((to, from, next) => {
+  console.log('global beforeEach');
+  next(); // continues journey
+});
+
 const vm = new Vue({
  ...App,
  router

@@ -1853,4 +1853,163 @@ You can basically either pass a static value, bind a dynamic value to props or u
 //     }
 // }
 ```
-### -- #232 Extract Route Params via "props"
+### -- #233 Setting Up Child Routes (Nested Routes)
+*in routes.js:*  
+1) Import the child components:
+```js
+// import Home from './components/Home.vue';
+// import User from './components/user/User.vue';
+import UserStart from './components/user/UserStart.vue';
+import UserDetail from './components/user/UserDetail.vue';
+import UserEdit from './components/user/UserEdit.vue';
+
+// export const routes = [
+    // { path: '', component: Home }, 
+    { path: '/user', component: User, children: [
+        { path: '', component: UserStart },
+        { path: ':id', component: UserDetail },
+        { path: ':id/edit', component: UserEdit }
+    ], props: true }
+// ];
+```
+*in Header.vue:*  
+2) Link to User-component
+```html
+<router-link tag="li" to="/user" active-class="active"><a>User</a></router-link>
+```
+
+*in User.vue:*  
+3) Load childcomponents in User.vue
+```html
+<router-view></router-view>
+```
+
+### -- #234 Navigating to Nested Routes
+*in UserStart.vue:*
+```html
+<router-link tag="li" to="/user/1" class="list-group-item" style="cursor: pointer">User 1</router-link>
+<router-link tag="li" to="/user/2" class="list-group-item" style="cursor: pointer">User 2</router-link>
+<router-link tag="li" to="/user/3" class="list-group-item" style="cursor: pointer">User 3</router-link>
+```
+*in UserDetail.vue:*
+```html
+<p>User loaded has ID: {{ $route.params.id }}</p>
+
+---
+
+<p>User loaded has ID: {{ id }}</p>
+
+<script>
+    export default {
+        props: ['id']
+    }
+</script>
+```
+*in routes.js:*
+```js
+ { path: ':id', component: UserDetail, props: true },
+```
+
+### -- #235 Making Router Links more Dynamic
+*in UserDetail.vue:*
+```html
+<router-link tag="button" :to="'/user/' + id + '/edit'" class="btn btn-primary">Edit User</router-link>
+```
+
+### -- #236 A Better Way of Creating Links - With Named Routes
+*in routes.js:*
+```js
+{ path: ':id/edit', component: UserEdit, name: 'userEdit' }
+```
+
+*in UserDetail.vue:*
+```html
+<router-link tag="button" :to="{ name: 'userEdit', params: { id: id } }" class="btn btn-primary">Edit User</router-link>
+```
+
+### -- #237 Using Query Parameters
+*in UserDetail.vue:*
+```html
+<router-link tag="button" 
+    :to="{ 
+        name: 'userEdit', 
+        params: { 
+            id: id 
+        },
+        query: {
+            locale: 'en',
+            q: 100 
+        }
+    }" class="btn btn-primary">
+    Edit User
+</router-link>
+```
+*in UserEdit.vue:*
+```html
+<p>Locale: {{ $route.query.locale }}</p>
+<p>Analytics: {{ $route.query.q }}</p>
+```
+
+### -- #238 Multiple Router Views
+...
+
+### -- #239 Redirecting
+*in routes.js:*
+```js
+{ path: '/redirect-me', redirect: { name: 'home' } }
+```
+
+### -- Setting Up "Catch All" Routes / Wildcards
+*in routes.js*
+```js
+{ path: '*', redirect: { name: 'home' } }
+```
+
+### -- Animating Route Transitions
+
+### -- Passing the Hash Fragment
+
+### -- 242 Controlling the Scoll Behavior
+
+### -- 243 Protecting Routes with Guards
+
+### -- 244 Using the "beforeEnter" Guard
+1) Gets executed on each routing action. Execute `next()` to continue or `next(false)`, or passing a path or object.
+*in main.js:*
+```js
+router.beforeEach((to, from, next) => {
+    console.log('global beforeEach');
+    next(); // continues journey
+});
+```
+2) Guard certain routes: userDetail-route:
+*in routes.js:*
+```js
+{
+    path: ':id',
+    component: UserDetail,
+    beforeEnter: (to, from, next) => {
+        console.log('inside route setup');
+        next();
+    }
+}
+```
+
+Now a new hook is available thanks to the VueRouter:
+
+*in UserDetail.vue:*
+```js
+// export default {
+    beforeRouteEnter(to, from, next) {
+        
+        // You can't access components properties from here, because they are not fully rendered yet!
+
+        if(true){
+            next();
+        } else {
+            next('false');
+        }
+    }
+// }
+```
+### -- 245 Using the "beforeLeave" Guard
