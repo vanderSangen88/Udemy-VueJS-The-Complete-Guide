@@ -2063,3 +2063,126 @@ const UserDetail = resolve => {
 };
 ```
 
+## Section 17 - Vuex
+
+This pattern has the idea of using a (Central) Store which holds the state.
+
+### -- 253 Using the "Centeralized State"
+1) Install helpers through npm: 
+```bash
+npm i -S vuex
+```
+2) Create store-directory and store.js-file.  
+
+*in store/store.js:*
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+// Create new store
+export const store = new Vuex.Store({
+    state: {
+        // store all the properties the app has
+        counter: 0
+    }
+});
+```
+3) Register the store in the root Vue-instance  
+
+*in main.js:*
+```js
+// Register the store in the root Vue-instance
+import { store } from './store/store.js';
+
+// new Vue({
+//  ..App,
+    store // es6 for store: store
+// });
+```
+4) Replace customEventListener with `$store`-reference.
+
+*in components/Counter.vue:*
+```html
+<template>
+    <div>
+        <button class="btn btn-primary" @click="increment">Increment</button>
+        <button class="btn btn-primary" @click="decrement">Decrement</button>
+    </div>
+</template>
+
+<script>
+    export default {
+        methods: {
+            increment() {
+                // this.$emit('updated', 1);
+                // Access store:
+                this.$store.state.counter++;
+
+            },
+            decrement() {
+                // this.$emit('updated', -1);
+                // Access store:
+                this.$store.state.counter--;
+            }
+        }
+    }
+</script>
+```
+5) Replace `props`-property-array with `computed`-property-object which returns the stored state of the corresponding property `counter`.
+
+*in components/Result.vue:*
+```html
+<template>
+    <p>Counter is: {{ counter }}</p>
+</template>
+
+<script>
+    export default {
+        // props: ['counter']
+        computed: {
+            counter() {
+                return this.$store.state.counter;
+            }
+        }
+    }
+</script>
+```
+
+6) Remove dynamic attributes from component-tags and `data`-property-object from default-object.
+
+*in App.vue:*
+```html
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <h1>Vuex</h1>
+                <!-- <app-result :counter="counter"></app-result> -->
+                <app-result></app-result>
+                <hr>
+                <!-- <app-counter @updated="counter += $event"></app-counter> -->
+                <app-counter></app-counter>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Counter from './components/Counter.vue';
+    import Result from './components/Result.vue';
+
+    export default {
+        // data() {
+        //     return {
+        //         counter: 0
+        //     }
+        // },
+        components: {
+            appCounter: Counter,
+            appResult: Result,
+        }
+    }
+</script>
+```
