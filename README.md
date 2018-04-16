@@ -2186,3 +2186,220 @@ import { store } from './store/store.js';
     }
 </script>
 ```
+
+### -- 254 Why a Centralized State Alone Won't Fix It
+
+#DuplicateCode
+
+### -- 256 Using Getters
+1) Add a new property `getters`.
+
+*in store/store.js:*
+```js
+// import Vue from 'vue';
+// import Vuex from 'vuex';
+
+// Vue.use(Vuex);
+
+// Create new store
+// export const store = new Vuex.Store({
+//     state: {
+//         counter: 0
+//     },
+    getters: {
+        doubleCounter: state => {
+            return state.counter * 2;
+        }
+    }
+// });
+```
+2) Access the getters in the components.
+
+*in components/Result.vue & components/AnotherResult.vue:*
+```js
+// export default {
+    computed: {
+        counter() {
+            return this.$store.getters.doubleCounter;
+        }
+    }
+// }
+```
+### -- 257 Mapping Getters to Properties
+
+Vuex has a helper-method which will create all the computed properties needed.
+
+1) Import the helper-function `mapGetters`;
+
+*in components/AnotherResult.vue:*
+```html
+<template>
+    <div>
+        <p>Counter is: {{ doubleCounter }}</p>
+        <p>Number of Clicks: {{ stringCounter }}</p>
+    </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+export default {
+    computed: { 
+        ...mapGetters([ 
+            'doubleCounter', 
+            'stringCounter'
+        ])
+        // , ourOwnProperties
+    }
+
+    // OR
+    // mapGetters({
+        // dblCnt: doubleCounter,
+        // strCnt: stringCounter
+    // })
+}
+</script>
+```
+Optional: update dependency if not transpiled properly: `
+```bash
+npm i -D babel-preset-stage-2
+```
+& 
+*in .babelrc:*
+```json
+presets {
+    "presets": [
+        ["es2015", { "modules": false}],
+        ["stage-2"]
+    ]
+}
+```
+
+### -- 259 Using Mutations
+
+1) Add a new property `mutations`.
+
+*in store/store.js:*
+```js
+// import Vue from 'vue';
+// import Vuex from 'vuex';
+
+// Vue.use(Vuex);
+
+// Create new store
+// export const store = new Vuex.Store({
+//     state: {
+//         counter: 0
+//     },
+    // getters: {
+    //     doubleCounter: state => {
+    //         return state.counter * 2;
+    //     }
+    // },
+    mutations: {
+        increment: state => {
+            state.counter++;
+        },
+        decrement: state => {
+            state.counter--;
+        }
+    }
+// });
+```
+
+*in components/Counter.vue:*
+```html
+<template>
+    <div>
+        <button class="btn btn-primary" @click="increment">Increment</button>
+        <button class="btn btn-primary" @click="decrement">Decrement</button>
+    </div>
+</template>
+
+<script>
+    import { mapMutations } from 'vuex';
+
+    export default {
+        methods: {
+            ...mapMutations([
+                'increment', 
+                'decrement'
+            ])
+            // increment() {
+            //     // this.$store.state.counter++;
+            //     this.$store.commit('increment'); // Pass mutation as a string!
+            // },
+            // decrement() {
+            //     // this.$store.state.counter--;
+            //     this.$store.commit('decrement');
+            // }
+        }
+    }
+</script>
+```
+
+### -- 260 Why Mutations have to run Synchonously
+
+Otherwise the main benifit of it having a easy-to-track adjustment of your state, you can't track which mutation was responsible for each change!
+
+### -- 262 Using Actions
+
+1) Add a new property `actions`.
+
+*in store/store.js:*
+```js
+...
+    // mutations: {
+    //     increment: state => {
+    //         state.counter++;
+    //     },
+    //     decrement: state => {
+    //         state.counter--;
+    //     }
+    // },
+    actions: {
+        increment: context => {
+            context.commit('increment');
+        },
+        decrement: context => {
+            context.commit('decrement');
+        },
+        asyncIncrement: ({commit}) => {
+            setTimeout(() => {
+                commit('increment');
+            }, 1000);
+        },
+        asyncDecrement: ({commit}) => {
+            setTimeout(() => {
+                commit('decrement');
+            }, 1000);
+        }
+
+        // OR to only use the commit-method:
+        increment: ({ commit }) => {
+            commit('increment');
+        }
+    }
+// });
+```
+*in components/Counter.vue:*
+```html
+<template>
+    <div>
+        <button class="btn btn-primary" @click="increment">Increment</button>
+        <button class="btn btn-primary" @click="decrement">Decrement</button>
+    </div>
+</template>
+
+<script>
+    import { mapActions } from 'vuex';
+
+    export default {
+        methods: {
+            ...mapActions([
+                'increment', 
+                'decrement'
+            ])
+        }
+    }
+</script>
+```
