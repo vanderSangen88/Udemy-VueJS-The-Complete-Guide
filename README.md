@@ -2012,4 +2012,54 @@ Now a new hook is available thanks to the VueRouter:
     }
 // }
 ```
-### -- 245 Using the "beforeLeave" Guard
+### -- 246 Using the "beforeLeave" Guard
+
+### -- 247 Loading Routes Lazily
+1) Transfer `import`'s into another syntax which webpack will recoginze, not include it into the initial bundle but will create several other bundles.
+
+*in routes.js:*
+```js
+// import User from './components/user/User.vue';
+
+// Async
+const User = resolve => {
+    require.ensure([
+        './components/user/User.vue' // Whenever we want to load something which lives in this place './components/user/User.vue':
+    ], () => {
+        resolve(require('./components/user/User.vue')); // Execute this function, which is basicly like a promise and resolves the path. Now webpack will only get this if we actually need this file.
+    }, 'user'); // You can also group the component-bundles together by adding a third parameter to the `require.ensure()`-method, the group name: 
+
+    //All the components which share the same group name will be bundled together.
+};
+
+// import UserStart from './components/user/UserStart.vue';
+
+const UserStart = resolve => {
+    require.ensure([
+        './components/user/UserStart.vue'
+    ], () => {
+        resolve(require('./components/user/UserStart.vue'));
+    }, 'user');
+};
+
+// import UserEdit from './components/user/UserEdit.vue';
+
+const UserEdit = resolve => {
+    require.ensure([
+        './components/user/UserEdit.vue'
+    ], () => {
+        resolve(require('./components/user/UserEdit.vue'));
+    }, 'user');
+};
+
+// import UserDetail from './components/user/UserDetail.vue';
+
+const UserDetail = resolve => {
+    require.ensure([
+        './components/user/UserDetail.vue'
+    ], () => {
+        resolve(require('./components/user/UserDetail.vue'));
+    }, 'user');
+};
+```
+
