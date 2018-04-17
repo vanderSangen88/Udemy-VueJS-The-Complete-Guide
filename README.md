@@ -2403,3 +2403,164 @@ Otherwise the main benifit of it having a easy-to-track adjustment of your state
     }
 </script>
 ```
+### -- 263 Mapping Actions to Methods
+
+Passing parameters to actions
+
+### -- 264 A Summary of Vuex
+
+### -- 265 Two-Way Binding and Vuex
+1) Transform the computed property to an object with the properties `get` & `set`.
+
+!! Use with caution !!
+
+```js
+computed: {
+    value: {
+        get() {
+            return this.$store.getters.value;
+        }
+        set(value) {
+            this.$store.dispatch('updateValue', value);
+        }
+    }
+}
+```
+### -- 266 Improving Folder Structures
+
+Create a "modules"-folder as a child of the "store"-folder.
+
+### -- 267 Modularizing the State Management
+
+```
+store
+|   | modules
+|   |   | counter.js
+|   |   | value.js
+```
+
+*in counter.js:*
+```js
+const state = {
+    counter: 0
+};
+
+const getters = {
+    doubleCounter: state => {
+        return state.counter * 2;
+    },
+    stringCounter: state => {
+        return state.counter + ' Clicks';
+    }
+};
+
+const mutations = {
+    increment: (state, payload) => {
+        state.counter += payload;
+    },
+    decrement: (state, payload) => {
+        state.counter -= payload;
+    }
+}
+
+const actions = {
+    increment: (context, payload) => {
+        context.commit('increment', payload);
+    },
+    decrement: (context, payload) => {
+        context.commit('decrement', payload);
+    },
+    asyncIncrement: ({ commit }, payload) => {
+        setTimeout(() => {
+            commit('increment', payload.by);
+        }, payload.duration);
+    },
+    asyncDecrement: ({ commit }, payload) => {
+        setTimeout(() => {
+            commit('decrement', payload.by);
+        }, payload.duration);
+    }
+};
+
+export default {
+    state, getters, mutations, actions
+}
+```
+Import the exported state components
+*in store.js:*
+```js
+import counter from './modules/counter';
+
+...
+
+modules: {
+    counter
+}
+```
+
+### --- 268 Using Separate Files
+```
+store
+|   | modules
+|   |   | counter.js
+|   |   | value.js
+
+|   | actions.js
+|   | mutations.js
+|   | getters.js
+```
+*in actions.js:*
+```js
+export const updateValue = (context, payload) => {
+    context.commit('updateValue', payload);
+};
+```
+Import the exported actions:
+
+*in store.js:*
+```js
+import * as actions from 'actions';
+
+... 
+// actions: {}
+actions,
+
+```
+### --- 269 Using Namespaces to Avoid Naming Problems
+
+1) Create a "types.js"-file as a child of the store-folder.
+2) Setup constants with unique names to be assigned for methods, properties etc. in all other files.
+
+*in types.js:*
+```js
+export const DOUBLE_COUNTER = 'counter/DOUBLE_COUNTER';
+export const CLICK_COUNTER = 'counter/CLICK_COUNTER';
+```
+3) Import types in other files:
+
+*in counter.js:*
+```js
+import * as types from 'types';
+
+... 
+const getters = {
+    [types.DOUBLE_COUNTER]: state => { // es6 set dynamic propertyname on runtime. will be a string.
+        return state.counter * 2;
+    }
+    ...
+
+```
+
+*in AnotherCounter.vue:*
+```js
+import * as types from 'types';
+... 
+computed: {
+    ...mapGetters({
+        doubleCounter: types.DOUBLE_COUNTER
+    ...
+```
+
+### 270 AUTO-namespacing with Vuex 2.1
+
+If you're using Vuex version 2.1 or higher, you may use its auto-namespacing feature to avoid having to set up all the namespaces manually. You may learn more about it here: https://github.com/vuejs/vuex/releases/tag/v2.1.0
