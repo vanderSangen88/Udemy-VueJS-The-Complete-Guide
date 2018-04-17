@@ -19,6 +19,7 @@ Section-15 - Connecting to Servers via Http/package.json
 Section-15 - Connecting to Servers via Http/src/assets
 !Section-15 - Connecting to Servers via Http/src
 
+section*
 !section-16-vue-router
 section-16-vue-router/webpack.config.js
 section-16-vue-router/.babelrc
@@ -27,4 +28,7 @@ section-16-vue-router/README.md
 section-16-vue-router/index.html
 section-16-vue-router/package.json
 section-16-vue-router/src/assets
+
+!section-18-stocktrader
+
 

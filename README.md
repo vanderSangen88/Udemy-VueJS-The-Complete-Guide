@@ -2564,3 +2564,30 @@ computed: {
 ### 270 AUTO-namespacing with Vuex 2.1
 
 If you're using Vuex version 2.1 or higher, you may use its auto-namespacing feature to avoid having to set up all the namespaces manually. You may learn more about it here: https://github.com/vuejs/vuex/releases/tag/v2.1.0
+
+### 272 Module Resources & Useful Links
+
+Vuex Documenation: https://vuex.vuejs.org/en/
+
+## Section 18 - The Stock Trader
+
+1) Setup new Vue Project.
+```bash
+vue init webpack-simple section-18-stocktrader
+```
+
+2) Add Bootstrap 3.3.7 and clear default Vue-files.
+3) Setup components
+```
+| App.vue
+| main.js
+| components
+| | Home.vue
+| | Header.vue
+| | portfolio
+| | | Portfolio.vue
+| | | Stock.vue
+| | stocks
+| | | Stock.vue
+| | | Stocks.vue
+```
