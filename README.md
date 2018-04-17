@@ -2604,3 +2604,7 @@ npm i -S vue-router
 11) Setup Stock-template in Stock.vue
 12) Import Stock-component
 13) Loop through stocks and create stock components
+14) Pass stock to loop with dynamic binding
+15) Enable 'stock'-props and output stock.data
+16) Create 'quantity-property' and bind it to the input-field
+17) Disable button when quantity is lower or equal to zero & not an integer
