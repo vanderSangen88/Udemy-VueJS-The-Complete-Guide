@@ -2591,3 +2591,11 @@ vue init webpack-simple section-18-stocktrader
 | | | Stock.vue
 | | | Stocks.vue
 ```
+4) Install Vue Router:
+```bash
+npm i -S vue-router
+```
+5) Enable VueRouter in main.js.
+6) Setup routes in routes.js.
+7) Add router to main Vue-instance.
+8) Load the routed-components in App.vue
