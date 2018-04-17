@@ -2599,3 +2599,8 @@ npm i -S vue-router
 6) Setup routes in routes.js.
 7) Add router to main Vue-instance.
 8) Load the routed-components in App.vue
+9) Add Header and Navigation
+10) Create dummy stock data in Stocks.vue
+11) Setup Stock-template in Stock.vue
+12) Import Stock-component
+13) Loop through stocks and create stock components
