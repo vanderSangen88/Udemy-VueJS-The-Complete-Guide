@@ -2655,3 +2655,4 @@ npm i -S vue-resource
 ```bash
 npm i -S axios
 ```
+2) Import axios and setup the post-method by passing the url, the formData and optionally an object with configurations.
