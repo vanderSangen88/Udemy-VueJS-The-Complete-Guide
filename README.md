@@ -2644,3 +2644,9 @@ npm i -S vuex
 44) Wrap router-view in transition-tag
 45) Add the animation & styling to animation-hooks
 46) Hook up the dropdown-functionality
+47) Install Vue Resource:
+```bash
+npm i -S vue-resource
+```
+48) Import VueResource
+
