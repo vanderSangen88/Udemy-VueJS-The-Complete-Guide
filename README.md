@@ -2619,9 +2619,13 @@ npm i -S vuex
 19) Setup store in store/store.js
 20) Setup first module 'stocks' in /store/modules/stocks.js
 21) Import 'stocks'-module in the store
-22) Export stocks-data to data/stocks.js
+22) Export stocks-data from to data/stocks.js
 23) Import stocks-data in 'stocks'-module
 24) Pass 'stocks'-data as an argument to the `initStocks`-action
 25) Call the `initStocks`-action in the `created`-hook in App.vue
 26) Get the stored stocks in /components/stocks/Stocks.vue
 27) Setup module 'portfolio' in /store/modules/portfolio.js
+28) Import 'portfolio'-module in the store
+29) Setup Stock-template in portfolio/Stock.vue
+30) Call the `sellStock`-action
+
