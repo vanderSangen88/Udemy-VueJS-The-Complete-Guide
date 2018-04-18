@@ -2624,3 +2624,4 @@ npm i -S vuex
 24) Pass 'stocks'-data as an argument to the `initStocks`-action
 25) Call the `initStocks`-action in the `created`-hook in App.vue
 26) Get the stored stocks in /components/stocks/Stocks.vue
+27) Setup module 'portfolio' in /store/modules/portfolio.js
