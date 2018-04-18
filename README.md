@@ -2630,4 +2630,6 @@ npm i -S vuex
 30) Call the `sellStock`-action
 31) Setup Portfolio-template in portfolio/Portfolio.vue
 32) Fix selling stock by passing the missing order and renaming duplicate mapped action 'sellStock' with 'placeSellOrder'
+33) Setup the Home-template
+34) Display the funds in the Header
 
