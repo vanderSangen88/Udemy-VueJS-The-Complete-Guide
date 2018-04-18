@@ -2629,4 +2629,5 @@ npm i -S vuex
 29) Setup Stock-template in portfolio/Stock.vue
 30) Call the `sellStock`-action
 31) Setup Portfolio-template in portfolio/Portfolio.vue
+32) Fix selling stock by passing the missing order and renaming duplicate mapped action 'sellStock' with 'placeSellOrder'
 
