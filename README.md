@@ -2634,3 +2634,5 @@ npm i -S vuex
 34) Display the funds in the Header
 35) Catch buying more stocks than funds owned
 36) Catch selling more stocks than stocks owned
+37) Create a global filter in main.js
+38) Add filter to Header- & Home-components

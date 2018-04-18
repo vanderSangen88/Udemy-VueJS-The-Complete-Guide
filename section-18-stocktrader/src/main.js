@@ -12,6 +12,11 @@ const router = new VueRouter({
   routes
 });
 
+// Create global filter
+Vue.filter('currency', (value) => {
+  return '$' + value.toLocaleString();
+});
+
 const vm = new Vue({
   ...App,
   router,
