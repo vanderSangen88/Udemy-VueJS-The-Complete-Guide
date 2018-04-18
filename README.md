@@ -2641,3 +2641,5 @@ npm i -S vuex
 41) Call the `randomizeStocks`-action
 42) Implement 'RND_STOCKS'-mutation
 43) Finish hooking up the 'End Day'-button
+44) Wrap router-view in transition-tag
+45) Add the animation & styling to animation-hooks
