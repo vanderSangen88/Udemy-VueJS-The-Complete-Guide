@@ -2650,3 +2650,8 @@ npm i -S vue-resource
 ```
 48) Import VueResource
 
+## Section 22 - Axios (alternative to VueResource)
+1) Install Axios
+```bash
+npm i -S axios
+```
