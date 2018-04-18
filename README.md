@@ -2628,4 +2628,5 @@ npm i -S vuex
 28) Import 'portfolio'-module in the store
 29) Setup Stock-template in portfolio/Stock.vue
 30) Call the `sellStock`-action
+31) Setup Portfolio-template in portfolio/Portfolio.vue
 
