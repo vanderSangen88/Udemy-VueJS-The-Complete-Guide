@@ -2590,6 +2590,10 @@ vue init webpack-simple section-18-stocktrader
 | | stocks
 | | | Stock.vue
 | | | Stocks.vue
+| store
+| | store.js
+| | modules
+| | | stocks.js
 ```
 4) Install Vue Router:
 ```bash
@@ -2607,4 +2611,16 @@ npm i -S vue-router
 14) Pass stock to loop with dynamic binding
 15) Enable 'stock'-props and output stock.data
 16) Create 'quantity-property' and bind it to the input-field
-17) Disable button when quantity is lower or equal to zero & not an integer
+17) Disable button when quantity is lower or equal to zero & not an integer  
+18) Install Vuex
+```bash
+npm i -S vuex
+```
+19) Setup store in store/store.js
+20) Setup first module 'stocks' in /store/modules/stocks.js
+21) Import 'stocks'-module in the store
+22) Export stocks-data to data/stocks.js
+23) Import stocks-data in 'stocks'-module
+24) Pass 'stocks'-data as an argument to the `initStocks`-action
+25) Call the `initStocks`-action in the `created`-hook in App.vue
+26) Get the stored stocks in /components/stocks/Stocks.vue
