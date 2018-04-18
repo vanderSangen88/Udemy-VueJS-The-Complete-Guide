@@ -2636,3 +2636,8 @@ npm i -S vuex
 36) Catch selling more stocks than stocks owned
 37) Create a global filter in main.js
 38) Add filter to Header- & Home-components
+39) Start hooking up the 'End Day'-button
+40) Map the store actions
+41) Call the `randomizeStocks`-action
+42) Implement 'RND_STOCKS'-mutation
+43) Finish hooking up the 'End Day'-button
