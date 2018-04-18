@@ -2632,4 +2632,5 @@ npm i -S vuex
 32) Fix selling stock by passing the missing order and renaming duplicate mapped action 'sellStock' with 'placeSellOrder'
 33) Setup the Home-template
 34) Display the funds in the Header
-
+35) Catch buying more stocks than funds owned
+36) Catch selling more stocks than stocks owned

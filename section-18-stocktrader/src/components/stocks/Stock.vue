@@ -15,7 +15,7 @@
         </div>
         
         <div class="pull-right">
-          <button class="btn btn-success" @click="buyStock" :disabled="quantity <= 0 || !Number.isInteger(parsedQuantity)">Buy</button>
+          <button class="btn btn-success" :class="{'btn-danger': insufficientFunds}" @click="buyStock" :disabled="quantity <= 0 || !Number.isInteger(parsedQuantity) || insufficientFunds">Buy</button>
         </div>
       </div>
 
@@ -35,6 +35,12 @@ export default {
     parsedQuantity(){
       // console.log("Parsing quantity string to number...");
       return Number(this.quantity);
+    },
+    insufficientFunds() {
+      return this.quantity * this.stock.price > this.funds;
+    },
+    funds() {
+      return this.$store.getters.funds;
     }
   },
   methods: {

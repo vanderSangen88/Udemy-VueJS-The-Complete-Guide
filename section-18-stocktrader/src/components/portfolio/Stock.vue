@@ -15,7 +15,7 @@
         </div>
         
         <div class="pull-right">
-          <button class="btn btn-info" @click="sellStock" :disabled="quantity <= 0 || !Number.isInteger(parsedQuantity)">Sell</button>
+          <button class="btn btn-info" :class="{'btn-danger': insufficientQuantity}" @click="sellStock" :disabled="quantity <= 0 || !Number.isInteger(parsedQuantity) || insufficientQuantity">Sell</button>
         </div>
       </div>
 
@@ -38,6 +38,9 @@ export default {
     parsedQuantity(){
       // console.log("Parsing quantity string to number...");
       return Number(this.quantity);
+    },
+    insufficientQuantity() {
+      return this.quantity > this.stock.quantity;
     }
   },
   methods: {
