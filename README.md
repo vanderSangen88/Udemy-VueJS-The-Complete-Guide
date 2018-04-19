@@ -2561,13 +2561,17 @@ computed: {
     ...
 ```
 
-### 270 AUTO-namespacing with Vuex 2.1
+### --- 270 AUTO-namespacing with Vuex 2.1
 
 If you're using Vuex version 2.1 or higher, you may use its auto-namespacing feature to avoid having to set up all the namespaces manually. You may learn more about it here: https://github.com/vuejs/vuex/releases/tag/v2.1.0
 
-### 272 Module Resources & Useful Links
+### --- 272 Module Resources & Useful Links
 
 Vuex Documenation: https://vuex.vuejs.org/en/
+
+---
+---
+---
 
 ## Section 18 - The Stock Trader
 
@@ -2650,9 +2654,75 @@ npm i -S vue-resource
 ```
 48) Import VueResource
 
+---
+---
+---
+
 ## Section 22 - Axios (alternative to VueResource)
 1) Install Axios
 ```bash
 npm i -S axios
 ```
 2) Import axios and setup the post-method by passing the url, the formData and optionally an object with configurations.
+
+---
+---
+---
+
+## Section 24 - Bonus: Form Input Validation
+
+To validate what a user enters, use a third party package because the Vue-framework itself doesn't have this functionality like Angular does.
+
+### --- 363 - Installing Vuelidate
+```bash
+npm i -S vuelidate
+```
+
+### --- 364 - Adding a Validator
+1) Import Vuelidate
+2) Inject package
+3) Add new `validations`-property
+
+To setup the validations for a form, use some keys to identify the form-controls. This has to have the same name as the property you're binding to with `v-model` to automatically synchronize
+
+4) The validation-key `email` takes an object to configure the validators for the validation-control
+5) Import build-in validators `required` & `email`
+6) Add validators to validation-control. !Typically use the validator-names to be able to use the next-gen JavaScript feature where you can omit the value because of the equal key-name.
+```js
+import { required, email } from 'vuelidate/lib/validators' // import build-in validators
+
+export default {
+    data() {
+        return {
+            email: ''
+            ...
+        }
+    },
+    validations: {
+        email: {
+            required, // required: required
+            email // email: email
+        }
+    }
+}
+```
+
+7) Connect the `email`-validation-rule to the template
+8) `$v $touch()` will inform Vuelidate to check if the input it is registered fulfills the configured validation-rules
+```html
+<div class="input">
+    <label for="email">Mail</label>
+    <input type="email" id="email" v-model="email"
+    @input="$v.email.$touch()">
+</div>
+```
+
+On init the `required`-validator is `false`, which means it is not met because it is empty. The `email`-validator is `true`, but that simply is the starting-value for this validator and will change once a user starts typing. For example when insert a 't', the `required`-validator is set to `true` because it meets the criteria of having some value, but the `email`-validator is `false` because it is not valid.  
+
+Other utility-properties which are exposed by Vuelidate are:
+- `email.$invalid`: which is `true`, because it is invalid
+- `email.$dirty`: `true`, because it is touched and able to edit
+- `email.$error`: `true`, there is an error. Not equal to `$invalid`; `$error` will only be true if `$dirty` & `$invalid` are `true` to provide a better user experience
+- `email.$pending`: currently evaluating the validity; more important for asynchronous validators
+- `email.$params`: lists the assigned validators
+- `$invalid`, `$dirty` & `$error` for the overall form and all registered validators.
